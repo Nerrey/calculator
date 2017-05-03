@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  # match '/admin', :to => "statics#admin", :as => :admin, via: [:get, :post]
+
+  root to: 'statics#calculator'
+
 end

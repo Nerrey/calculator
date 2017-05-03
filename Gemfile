@@ -25,6 +25,7 @@ gem 'capistrano'
 gem 'capistrano-rvm'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platform: :mri
