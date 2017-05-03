@@ -1,0 +1,23 @@
+body {
+  background-color: #444444;
+}
+
+.jumbotron {
+  margin-top: 5%;
+  padding: 30px;
+}
+
+select {
+  width: 100% !important;
+}
+
+label {
+  margin-top: 10px;
+  margin-left: 2px;
+  margin-bottom: 1px;
+}
+
+.submit {
+  margin-top: 15px;
+  text-align: center;
+}
