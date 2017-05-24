@@ -1,5 +1,7 @@
 class StaticsController < ApplicationController
   before_action :set_lists, only: [:calculator]
+  after_action :allow_iframe, only: :calculator
+
   # base        4118 
   # territory   Коэфициент территории
   # drivers     Количество лиц допущенных к управлению
@@ -15,6 +17,10 @@ class StaticsController < ApplicationController
   end
 
   private 
+
+  def allow_iframe
+    response.headers.except! 'X-Frame-Options'
+  end
 
   def get_koeff
     4118 *
