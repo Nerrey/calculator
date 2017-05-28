@@ -1,0 +1,22 @@
+<%- if !@city_opts.blank? %>
+  $("select#city").attr("disabled", false);
+  set_opts(); 
+<% else %>
+  $("select#city").attr("disabled", true); 
+  del_opts();
+<% end %>
+
+function set_opts(){
+  var newOptions = <%= @city_opts.to_json.html_safe %>;
+  var $el = $("select#city");
+  $el.empty(); // remove old options
+  $el.append($("<option></option>"));
+  $.each(newOptions, function(key, value) {
+    $el.append($("<option></option>").attr("value", value).text(key));
+  });
+}
+
+function del_opts(){
+  var $el = $("select#city");
+  $el.empty(); // remove old options
+}

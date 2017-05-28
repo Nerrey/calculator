@@ -3,18 +3,42 @@
     %h3
       = "Предполагаемая стоимость: ~ #{@result} ₽"
   = form_tag "/", method: :get, class: 'form-inline' do
-    / %br
-    / = select_tag :territory, options_for_select(@territory_opts, params[:territory]), placeholder: 'Search for something', class: 'form-control', :required => true
+    %br
+    = label_tag " Регион"
+    = select_tag :region, options_for_select(@region_opts, params[:region]), prompt: '', class: 'form-control', onchange: "get_city()", :required => true
+    = label_tag " Населенный пункт"
+    - if params[:city]
+      = select_tag :city, options_for_select(@city_opts, params[:city]), prompt: '', class: 'form-control', :required => true
+    -else
+      = select_tag :city, options_for_select(@city_opts, params[:city]), prompt: '', class: 'form-control', disabled: true, :required => true
     = label_tag " Количество лиц допущенных к управлению"
-    = select_tag :drivers, options_for_select(@drivers_opts, params[:drivers]), prompt: 'Выберите соответствующее значение:', class: 'form-control', :required => true
+    = select_tag :drivers, options_for_select(@drivers_opts, params[:drivers]), prompt: '', class: 'form-control', onchange: "check_drivers()", :required => true
     = label_tag " Возраст и стаж водителей"
-    = select_tag :experience, options_for_select(@experience_opts, params[:experience]), prompt: 'Выберите соответствующее значение:', class: 'form-control', :required => true
+    - if params[:drivers] == "1.8"
+      = select_tag :experience, options_for_select(@experience_opts, params[:experience]), prompt: '', disabled: true, class: 'form-control', :required => true
+    -else
+      = select_tag :experience, options_for_select(@experience_opts, params[:experience]), prompt: '', class: 'form-control', :required => true
     = label_tag " Период страхования"
-    = select_tag :period, options_for_select(@period_opts, params[:period]), prompt: 'Выберите соответствующее значение:', class: 'form-control', :required => true
+    = select_tag :period, options_for_select(@period_opts, params[:period]), prompt: '', class: 'form-control', :required => true
     = label_tag " Мощность ТС (л.с)"
-    = select_tag :power, options_for_select(@power_opts, params[:power]), prompt: 'Выберите соответствующее значение:', class: 'form-control', :required => true
+    = select_tag :power, options_for_select(@power_opts, params[:power]), prompt: '', class: 'form-control', :required => true
     = label_tag " КБМ"
-    = select_tag :kbm, options_for_select(@kbm_opts, params[:kbm]), prompt: 'Выберите соответствующее значение:', class: 'form-control', :required => true
+    = select_tag :kbm, options_for_select(@kbm_opts, params[:kbm]), prompt: '', class: 'form-control', :required => true
     = link_to "Узнать свой КБМ", "http://dkbm-web.autoins.ru/dkbm-web-1.0/kbm.htm", target: "_blank"
     .submit
       = submit_tag 'Посмотреть результат', name: nil, class: 'btn btn-default submit'
+
+:javascript
+  function get_city(){
+    $.post("/city",
+      {
+        region: $("select#region option:selected").text()
+      });
+  };
+  function check_drivers(){
+    if ($("select#drivers option:selected").text() == "неограниченное"){
+      $("select#experience").attr("disabled", true);
+    }else{
+      $("select#experience").attr("disabled", false);
+    }
+  }
